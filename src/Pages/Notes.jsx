@@ -5,7 +5,7 @@ function Notes () {
   return (
     <h1>
       Notes
-      <Button variant='contained' color='secondary'>
+      <Button variant='outlined' color='secondary' disabledElevation>
         Button
       </Button>
     </h1>
