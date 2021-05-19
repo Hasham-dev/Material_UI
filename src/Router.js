@@ -6,8 +6,8 @@ import Notes from './Pages/Notes'
 function Routes () {
   return (
     <Switch>
-      <Route path='/' component={CreateNote} />
-      {/* <Route exact path='/' component={Notes} /> */}
+      <Route exact path='/' component={Notes} />
+      <Route path='/create' component={CreateNote} />
     </Switch>
   )
 }
