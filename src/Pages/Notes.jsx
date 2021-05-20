@@ -1,6 +1,8 @@
-import { Container, Grid, Paper } from '@material-ui/core'
+import { Container, Grid } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
+import NoteCard from '../components/NoteCard'
 import { db } from '../config/firebase'
+import { deleteData } from '../utils/firebaseUtils'
 
 function Notes () {
   const [notes, setNotes] = useState()
@@ -18,16 +20,22 @@ function Notes () {
     setNotes(notesData)
   }
 
+  const handleDelete = async (id) => {
+    await deleteData(id)
+    const newNotes = notes.filter(note => note.id !== id)
+    setNotes(newNotes)
+  }
+
   useEffect(() => {
     getData()
   }, [])
 
   return (
     <Container>
-      <Grid container>
+      <Grid container spacing={3}>
         {notes?.map(note => (
           <Grid item xs={12} sm={6} lg={4} key={note.id}>
-            <Paper>{note.title}</Paper>
+            <NoteCard note={note} handleDelete={handleDelete} />
           </Grid>
         ))}
       </Grid>

@@ -2,6 +2,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import {
   BrowserRouter as Router
 } from 'react-router-dom'
+import Layout from './components/Layout'
 import Routes from './Router'
 
 const theme = createMuiTheme({
@@ -23,7 +24,9 @@ function App () {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Routes />
+        <Layout>
+          <Routes />
+        </Layout>
       </Router>
     </ThemeProvider>
   )

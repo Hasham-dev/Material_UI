@@ -14,3 +14,11 @@ export const addData = ({ category, details, title }) => {
       console.error('Error writing document: ', error)
     })
 }
+
+export const deleteData = (docsID) => {
+  db.collection('data').doc(docsID).delete().then(() => {
+    console.log('Document successfully deleted!')
+  }).catch((error) => {
+    console.error('Error removing document: ', error)
+  })
+}
