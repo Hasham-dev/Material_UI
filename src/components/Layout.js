@@ -1,26 +1,39 @@
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, makeStyles, Typography } from '@material-ui/core'
+import { AppBar, Drawer, List, ListItem, ListItemIcon, ListItemText, makeStyles, Toolbar, Typography } from '@material-ui/core'
 import { AddCircleOutlined, SubjectOutlined } from '@material-ui/icons'
 import React from 'react'
 import { useHistory, useLocation } from 'react-router'
-
+import { format } from 'date-fns'
 const drawerWidth = 240
 
-const useStyles = makeStyles({
-  page: {
-    background: '#f9f9f9',
-    width: '100%'
-  },
-  drawer: {
-    width: drawerWidth
-  },
-  drawerPaper: {
-    width: drawerWidth
-  },
-  root: {
-    display: 'flex'
-  },
-  active: {
-    background: '#f4f4f4'
+const useStyles = makeStyles((theme) => {
+  return {
+    page: {
+      background: '#f9f9f9',
+      width: '100%',
+      padding: theme.spacing(3)
+    },
+    drawer: {
+      width: drawerWidth
+    },
+    drawerPaper: {
+      width: drawerWidth
+    },
+    root: {
+      display: 'flex'
+    },
+    active: {
+      background: '#f4f4f4'
+    },
+    title: {
+      padding: theme.spacing(2)
+    },
+    appbar: {
+      width: `calc(100% - ${drawerWidth}px)`
+    },
+    toolbar: theme.mixins.toolbar,
+    date: {
+      flexGrow: 1
+    }
   }
 })
 
@@ -44,6 +57,20 @@ export default function Layout ({ children }) {
 
   return (
     <div className={classes.root}>
+      <AppBar
+        className={classes.appbar}
+        elevation={0}
+      >
+        <Toolbar>
+          <Typography className={classes.date}>
+            {/* {Date.now().toString} */}
+            Today is the {format(new Date(), 'do MMM Y')}
+          </Typography>
+          <Typography>
+            Hasham
+          </Typography>
+        </Toolbar>
+      </AppBar>
       <Drawer
         className={classes.drawer}
         variant='permanent'
@@ -71,6 +98,7 @@ export default function Layout ({ children }) {
         </List>
       </Drawer>
       <div className={classes.page}>
+        <div className={classes.toolbar} />
         {children}
       </div>
     </div>
