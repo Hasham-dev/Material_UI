@@ -63,7 +63,6 @@ export default function Layout ({ children }) {
       >
         <Toolbar>
           <Typography className={classes.date}>
-            {/* {Date.now().toString} */}
             Today is the {format(new Date(), 'do MMM Y')}
           </Typography>
           <Typography>
@@ -78,8 +77,8 @@ export default function Layout ({ children }) {
         classes={{ paper: classes.drawerPaper }}
       >
         <div>
-          <Typography variant='h5'>
-            Ninja Notes
+          <Typography className={classes.title} variant='h5'>
+            Notes
           </Typography>
         </div>
 
