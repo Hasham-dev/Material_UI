@@ -5,13 +5,16 @@ import { db } from '../config/firebase'
 import { deleteData } from '../utils/firebaseUtils'
 import Masonry from 'react-masonry-css'
 import { BookLoader } from 'react-awesome-loaders'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function Notes () {
   const [notes, setNotes] = useState()
   const [loading, setLoading] = useState()
+  const { user, isLoading } = useAuth0()
+
   const getData = async () => {
     setLoading(true)
-    const data = await db.collection('data').get()
+    const data = await db.collection(user?.email).get()
     const notesData = []
     data.forEach((doc) => {
       notesData.push({
@@ -26,14 +29,15 @@ function Notes () {
   }
 
   const handleDelete = async (id) => {
-    await deleteData(id)
+    await deleteData({ id, docKey: user.email })
     const newNotes = notes.filter(note => note.id !== id)
     setNotes(newNotes)
   }
 
   useEffect(() => {
-    getData()
-  }, [])
+    user?.email && getData()
+    // eslint-disable-next-line
+  }, [user])
 
   const breakPoints = {
     default: 3,
@@ -41,7 +45,7 @@ function Notes () {
     700: 1
   }
 
-  if (loading) {
+  if (isLoading || loading) {
     return (
       <BookLoader
         className='loader'

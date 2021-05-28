@@ -3,6 +3,7 @@ import { KeyboardArrowRight } from '@material-ui/icons'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import { addData } from '../utils/firebaseUtils'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const useStyles = makeStyles({
   field: {
@@ -20,13 +21,14 @@ function CreateNote () {
   const [titleError, setTitleError] = useState()
   const [detailError, setDetailsError] = useState()
   const [category, setCategory] = useState('todos')
+  const { user } = useAuth0()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     setTitleError(!title)
     setDetailsError(!details)
     if (title && details) {
-      addData({ title, details, category })
+      addData({ title, details, category, docKey: user.email })
       history.push('/')
     }
   }

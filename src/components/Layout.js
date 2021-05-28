@@ -3,6 +3,7 @@ import { AddCircleOutlined, SubjectOutlined } from '@material-ui/icons'
 import React from 'react'
 import { useHistory, useLocation } from 'react-router'
 import { format } from 'date-fns'
+import { useAuth0 } from '@auth0/auth0-react'
 const drawerWidth = 240
 
 const useStyles = makeStyles((theme) => {
@@ -33,6 +34,9 @@ const useStyles = makeStyles((theme) => {
     toolbar: theme.mixins.toolbar,
     date: {
       flexGrow: 1
+    },
+    button: {
+      cursor: 'pointer'
     }
   }
 })
@@ -41,6 +45,7 @@ export default function Layout ({ children }) {
   const classes = useStyles()
   const history = useHistory()
   const location = useLocation()
+  const { logout, user } = useAuth0()
 
   const menuItems = [
     {
@@ -65,8 +70,14 @@ export default function Layout ({ children }) {
           <Typography className={classes.date}>
             Today is the {format(new Date(), 'do MMM Y')}
           </Typography>
-          <Typography>
-            Hasham
+          <Typography className={classes.title}>
+            Hi! {user?.nickname || 'John'}
+          </Typography>
+          <Typography
+            className={classes.button}
+            onClick={() => logout({ returnTo: window.location.origin })}
+          >
+            Logout
           </Typography>
         </Toolbar>
       </AppBar>

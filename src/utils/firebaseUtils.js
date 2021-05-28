@@ -1,8 +1,7 @@
 import { db } from '../config/firebase'
 
-export const addData = ({ category, details, title }) => {
-  console.log({ category, details, title })
-  db.collection('data').add({
+export const addData = ({ category, details, title, docKey }) => {
+  db.collection(docKey).add({
     category,
     details,
     title
@@ -15,8 +14,8 @@ export const addData = ({ category, details, title }) => {
     })
 }
 
-export const deleteData = (docsID) => {
-  db.collection('data').doc(docsID).delete().then(() => {
+export const deleteData = ({ id, docKey }) => {
+  db.collection(docKey).doc(id).delete().then(() => {
     console.log('Document successfully deleted!')
   }).catch((error) => {
     console.error('Error removing document: ', error)
