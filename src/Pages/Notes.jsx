@@ -1,4 +1,4 @@
-import { Container } from '@material-ui/core'
+import { Container, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import NoteCard from '../components/NoteCard'
 import { db } from '../config/firebase'
@@ -8,7 +8,9 @@ import { BookLoader } from 'react-awesome-loaders'
 
 function Notes () {
   const [notes, setNotes] = useState()
+  const [loading, setLoading] = useState()
   const getData = async () => {
+    setLoading(true)
     const data = await db.collection('data').get()
     const notesData = []
     data.forEach((doc) => {
@@ -20,6 +22,7 @@ function Notes () {
       })
     })
     setNotes(notesData)
+    setLoading(false)
   }
 
   const handleDelete = async (id) => {
@@ -38,7 +41,7 @@ function Notes () {
     700: 1
   }
 
-  if (!notes) {
+  if (loading) {
     return (
       <BookLoader
         className='loader'
@@ -49,6 +52,9 @@ function Notes () {
       />
     )
   }
+
+  if (!notes?.length) return <Typography className='loader' variant='h4'>Opss! No Notes Found...</Typography>
+
   return (
     <Container>
       <Masonry
